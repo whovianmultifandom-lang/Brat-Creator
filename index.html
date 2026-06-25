@@ -51,12 +51,10 @@ body {
     line-height: 0.9;
     color: black;
 
-    /* 🔥 Effet blur amélioré */
     filter: blur(0.6px);
     transition: filter 0.4s ease;
 }
 
-/* effet au survol (optionnel mais stylé) */
 .preview:hover {
     filter: blur(0px);
 }
@@ -78,15 +76,16 @@ input {
     text-align: center;
 }
 
+/* 👇 AJOUT DU BLOC NAME */
 .name {
-    position:absolute;
-    right:30px;
-    top:35px;
-    background:black;
-    color:white;
-    padding:10px 18px;
-    border-radius:20px;
-    font-weight:bold;
+    position: absolute;
+    right: 30px;
+    top: 35px;
+    background: black;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: bold;
 }
 </style>
 
@@ -96,32 +95,18 @@ input {
 
 <div class="top">
 
-    <div class="color" style="background:white"
-    onclick="changeColor('white')"></div>
-
-    <div class="color" style="background:#ffb6d9"
-    onclick="changeColor('#ffb6d9')"></div>
-
-    <div class="color" style="background:#ffe600"
-    onclick="changeColor('#ffe600')"></div>
-
-    <div class="color" style="background:#00c853"
-    onclick="changeColor('#00c853')"></div>
-
-    <div class="color" style="background:#0057ff"
-    onclick="changeColor('#0057ff')"></div>
-
-    <div class="color" style="background:#ff8c00"
-    onclick="changeColor('#ff8c00')"></div>
-
-    <div class="color" style="background:#ff1744"
-    onclick="changeColor('#ff1744')"></div>
-
-    <div class="color" style="background:#8e24aa"
-    onclick="changeColor('#8e24aa')"></div>
+    <div class="color" style="background:white" onclick="changeColor('white')"></div>
+    <div class="color" style="background:#ffb6d9" onclick="changeColor('#ffb6d9')"></div>
+    <div class="color" style="background:#ffe600" onclick="changeColor('#ffe600')"></div>
+    <div class="color" style="background:#00c853" onclick="changeColor('#00c853')"></div>
+    <div class="color" style="background:#0057ff" onclick="changeColor('#0057ff')"></div>
+    <div class="color" style="background:#ff8c00" onclick="changeColor('#ff8c00')"></div>
+    <div class="color" style="background:#ff1744" onclick="changeColor('#ff1744')"></div>
+    <div class="color" style="background:#8e24aa" onclick="changeColor('#8e24aa')"></div>
 
 </div>
 
+<!-- 👇 BLOC AJOUTÉ -->
 <div class="name">
 Howard Stirling ☰
 </div>
@@ -144,9 +129,7 @@ oninput="updateText()">
 <script>
 
 function updateText(){
-
     let value = document.getElementById("input").value;
-
     document.getElementById("text").innerHTML =
     value.replaceAll(" ","<br>");
 }
