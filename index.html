@@ -3,60 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brat Generator</title>
+<title>brat generator</title>
 
 <style>
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
     text-transform: lowercase;
 }
 
 body {
-    margin: 0;
     height: 100vh;
     overflow: hidden;
     background: #b9ff00;
-    transition: background 0.3s;
+    color: black;
 }
 
-/* 💀 header deface */
+/* 💀 HEADER */
 .name {
     position: absolute;
-    right: 30px;
-    top: 30px;
+    top: 25px;
+    right: 25px;
     background: black;
     color: #b9ff00;
-    padding: 10px 18px;
+    padding: 10px 16px;
     border-radius: 20px;
     font-weight: 700;
     letter-spacing: 1px;
-
-    /* effet "glitch / deface" */
-    filter: blur(0.3px);
-    opacity: 0.95;
-    transform: rotate(-1deg);
 }
 
-/* barre du haut */
+/* 🎨 COLORS */
 .top {
     position: absolute;
-    top: 35px;
+    top: 25px;
     left: 25px;
     display: flex;
-    gap: 12px;
+    gap: 10px;
 }
 
-/* boutons couleurs */
 .color {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    cursor: pointer;
     border: 2px solid black;
+    cursor: pointer;
 }
 
-/* zone texte */
+/* 🧠 CENTER TEXT */
 .generator {
     height: 100vh;
     display: flex;
@@ -65,44 +60,63 @@ body {
 }
 
 .preview {
-    font-size: 90px;
-    max-width: 700px;
+    font-size: 85px;
     text-align: left;
     line-height: 0.9;
-    color: black;
+    max-width: 750px;
 
-    filter: blur(0.7px);
-    transition: filter 0.3s ease, transform 0.3s ease;
+    /* 💥 GLITCH FEEL */
+    animation: glitch 2.5s infinite alternate;
 }
 
-/* effet hover clean */
-.preview:hover {
-    filter: blur(0px);
-    transform: scale(1.01);
+/* glitch animation */
+@keyframes glitch {
+    0%   { transform: translate(0px,0px); }
+    20%  { transform: translate(1px,-1px); }
+    40%  { transform: translate(-1px,1px); }
+    60%  { transform: translate(1px,1px); }
+    80%  { transform: translate(-1px,-1px); }
+    100% { transform: translate(0px,0px); }
 }
 
-/* input */
+/* ✏️ INPUT */
 .input-box {
     position: absolute;
-    bottom: 80px;
+    bottom: 70px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 input {
-    width: 620px;
-    padding: 18px;
+    width: 600px;
+    padding: 16px;
     border-radius: 30px;
-    border: 1px solid black;
-    font-size: 20px;
+    border: 2px solid black;
+    font-size: 18px;
     text-align: center;
     outline: none;
 }
 
-/* petit effet brut */
+/* focus BRAT */
 input:focus {
     background: black;
     color: #b9ff00;
+}
+
+/* petit effet brut sur fond */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.03),
+        rgba(0,0,0,0.03) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    pointer-events: none;
 }
 </style>
 
@@ -110,10 +124,8 @@ input:focus {
 
 <body>
 
-<!-- 💀 DEFACED BRAND -->
-<div class="name">
-Howard Stirling ☰
-</div>
+<!-- 💀 BRAND -->
+<div class="name">Howard Stirling ☰</div>
 
 <!-- 🎨 COLORS -->
 <div class="top">
@@ -122,9 +134,6 @@ Howard Stirling ☰
     <div class="color" style="background:#ffe600" onclick="changeColor('#ffe600')"></div>
     <div class="color" style="background:#00c853" onclick="changeColor('#00c853')"></div>
     <div class="color" style="background:#0057ff" onclick="changeColor('#0057ff')"></div>
-    <div class="color" style="background:#ff8c00" onclick="changeColor('#ff8c00')"></div>
-    <div class="color" style="background:#ff1744" onclick="changeColor('#ff1744')"></div>
-    <div class="color" style="background:#8e24aa" onclick="changeColor('#8e24aa')"></div>
 </div>
 
 <!-- 🧠 TEXT -->
@@ -148,7 +157,6 @@ oninput="updateText()">
 
 function updateText(){
     let value = document.getElementById("input").value;
-
     document.getElementById("text").innerHTML =
     value.toLowerCase().replaceAll(" ","<br>");
 }
