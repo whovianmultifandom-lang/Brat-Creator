@@ -18,10 +18,9 @@ body{
     height:100vh;
     overflow:hidden;
     background:#b9ff00;
-    transition: background 0.3s ease;
 }
 
-/* 🎨 TOP */
+/* TOP */
 .top{
     position:absolute;
     top:20px;
@@ -31,7 +30,6 @@ body{
     align-items:center;
 }
 
-/* couleurs */
 .color{
     width:26px;
     height:26px;
@@ -40,12 +38,11 @@ body{
     cursor:pointer;
 }
 
-/* noir avec texte blanc */
-.color.black{
+.black{
     background:black;
 }
 
-/* 🧠 CENTER */
+/* CENTER */
 .center{
     height:100vh;
     display:flex;
@@ -60,16 +57,14 @@ body{
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:20px;
 }
 
 .preview{
     font-size:45px;
     letter-spacing:2px;
-    transition: filter 0.3s ease;
 }
 
-/* ✏️ INPUT */
+/* INPUT */
 .input-box{
     position:absolute;
     bottom:60px;
@@ -84,7 +79,6 @@ input{
     border:2px solid black;
     font-size:18px;
     text-align:center;
-    outline:none;
 }
 
 input:focus{
@@ -92,35 +86,29 @@ input:focus{
     color:#b9ff00;
 }
 
-/* 🎛 BLUR BUTTON */
+/* BLUR BUTTON */
 .toggle-wrapper{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:4px;
 }
 
-/* bouton rond */
 .toggle{
     width:26px;
     height:26px;
     border-radius:50%;
     border:2px solid black;
     cursor:pointer;
-    background:white;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-weight:bold;
-    font-size:14px;
+    background:white;
 }
 
-/* A flouté */
 .blur-letter{
     filter: blur(2px);
 }
 
-/* texte sous bouton */
 .label{
     font-size:10px;
 }
@@ -130,7 +118,7 @@ input:focus{
 
 <body>
 
-<!-- 🎨 COLORS -->
+<!-- COLORS -->
 <div class="top">
 
     <div class="color" style="background:white" onclick="changeColor('white')"></div>
@@ -138,13 +126,11 @@ input:focus{
     <div class="color" style="background:#ffe600" onclick="changeColor('#ffe600')"></div>
     <div class="color" style="background:#00c853" onclick="changeColor('#00c853')"></div>
     <div class="color" style="background:#0057ff" onclick="changeColor('#0057ff')"></div>
-
-    <!-- ⚫ NOIR -->
     <div class="color black" onclick="changeColor('black')"></div>
 
-    <!-- 🌫 BLUR -->
+    <!-- BLUR -->
     <div class="toggle-wrapper">
-        <div id="blurBtn" class="toggle" onclick="toggleBlur()">
+        <div class="toggle" onclick="toggleBlur()">
             <span class="blur-letter">A</span>
         </div>
         <div class="label">blur</div>
@@ -152,7 +138,7 @@ input:focus{
 
 </div>
 
-<!-- 🧠 TEXT -->
+<!-- TEXT -->
 <div class="center">
     <div class="square">
         <div class="preview" id="text">
@@ -161,43 +147,31 @@ input:focus{
     </div>
 </div>
 
-<!-- ✏️ INPUT -->
+<!-- INPUT -->
 <div class="input-box">
-<input 
-id="input"
-value="you seem pretty sad for a girl so in love"
-oninput="updateText()">
+<input id="input" value="you seem pretty sad for a girl so in love" oninput="updateText()">
 </div>
 
 <script>
 
-let blurEnabled = true;
+let blur = true;
 
 function updateText(){
-    let value = document.getElementById("input").value;
-    document.getElementById("text").innerText = value.toLowerCase();
+    let v = document.getElementById("input").value;
+    document.getElementById("text").innerText = v.toLowerCase();
 }
 
-function changeColor(color){
-    document.body.style.background = color;
+function changeColor(c){
+    document.body.style.background = c;
 }
 
-/* 🌫 TOGGLE BLUR */
 function toggleBlur(){
-    blurEnabled = !blurEnabled;
-
-    const text = document.getElementById("text");
-
-    if(blurEnabled){
-        text.style.filter = "blur(1px)";
-    } else {
-        text.style.filter = "blur(0px)";
-    }
+    blur = !blur;
+    document.getElementById("text").style.filter = blur ? "blur(1px)" : "blur(0px)";
 }
 
-/* état initial */
-document.getElementById("text").style.filter = "blur(1px");
-
+// init
+document.getElementById("text").style.filter = "blur(1px)";
 </script>
 
 </body>
