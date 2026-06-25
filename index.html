@@ -9,13 +9,33 @@
 * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
+    text-transform: lowercase;
 }
 
 body {
     margin: 0;
     height: 100vh;
     overflow: hidden;
+    background: #b9ff00;
     transition: background 0.3s;
+}
+
+/* 💀 header deface */
+.name {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    background: black;
+    color: #b9ff00;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    /* effet "glitch / deface" */
+    filter: blur(0.3px);
+    opacity: 0.95;
+    transform: rotate(-1deg);
 }
 
 /* barre du haut */
@@ -51,12 +71,14 @@ body {
     line-height: 0.9;
     color: black;
 
-    filter: blur(0.6px);
-    transition: filter 0.4s ease;
+    filter: blur(0.7px);
+    transition: filter 0.3s ease, transform 0.3s ease;
 }
 
+/* effet hover clean */
 .preview:hover {
     filter: blur(0px);
+    transform: scale(1.01);
 }
 
 /* input */
@@ -71,30 +93,30 @@ input {
     width: 620px;
     padding: 18px;
     border-radius: 30px;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     font-size: 20px;
     text-align: center;
+    outline: none;
 }
 
-/* 👇 AJOUT DU BLOC NAME */
-.name {
-    position: absolute;
-    right: 30px;
-    top: 35px;
+/* petit effet brut */
+input:focus {
     background: black;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 20px;
-    font-weight: bold;
+    color: #b9ff00;
 }
 </style>
 
 </head>
 
-<body style="background:white;">
+<body>
 
+<!-- 💀 DEFACED BRAND -->
+<div class="name">
+Howard Stirling ☰
+</div>
+
+<!-- 🎨 COLORS -->
 <div class="top">
-
     <div class="color" style="background:white" onclick="changeColor('white')"></div>
     <div class="color" style="background:#ffb6d9" onclick="changeColor('#ffb6d9')"></div>
     <div class="color" style="background:#ffe600" onclick="changeColor('#ffe600')"></div>
@@ -103,14 +125,9 @@ input {
     <div class="color" style="background:#ff8c00" onclick="changeColor('#ff8c00')"></div>
     <div class="color" style="background:#ff1744" onclick="changeColor('#ff1744')"></div>
     <div class="color" style="background:#8e24aa" onclick="changeColor('#8e24aa')"></div>
-
 </div>
 
-<!-- 👇 BLOC AJOUTÉ -->
-<div class="name">
-Howard Stirling ☰
-</div>
-
+<!-- 🧠 TEXT -->
 <div class="generator">
     <div class="preview" id="text">
         you seem<br>
@@ -119,6 +136,7 @@ Howard Stirling ☰
     </div>
 </div>
 
+<!-- ✏️ INPUT -->
 <div class="input-box">
 <input 
 id="input"
@@ -130,8 +148,9 @@ oninput="updateText()">
 
 function updateText(){
     let value = document.getElementById("input").value;
+
     document.getElementById("text").innerHTML =
-    value.replaceAll(" ","<br>");
+    value.toLowerCase().replaceAll(" ","<br>");
 }
 
 function changeColor(color){
