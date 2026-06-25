@@ -20,7 +20,7 @@ body{
     background:#b9ff00;
 }
 
-/* TOP */
+/* 🎨 TOP BAR */
 .top{
     position:absolute;
     top:20px;
@@ -30,6 +30,7 @@ body{
     align-items:center;
 }
 
+/* couleurs */
 .color{
     width:26px;
     height:26px;
@@ -42,7 +43,7 @@ body{
     background:black;
 }
 
-/* CENTER */
+/* 🧠 CENTRE */
 .center{
     height:100vh;
     display:flex;
@@ -50,6 +51,7 @@ body{
     align-items:center;
 }
 
+/* carré invisible */
 .square{
     width:450px;
     height:450px;
@@ -59,12 +61,13 @@ body{
     text-align:center;
 }
 
-.preview{
+/* texte */
+#text{
     font-size:45px;
     letter-spacing:2px;
 }
 
-/* INPUT */
+/* ✏️ INPUT */
 .input-box{
     position:absolute;
     bottom:60px;
@@ -79,6 +82,7 @@ input{
     border:2px solid black;
     font-size:18px;
     text-align:center;
+    outline:none;
 }
 
 input:focus{
@@ -86,29 +90,33 @@ input:focus{
     color:#b9ff00;
 }
 
-/* BLUR BUTTON */
-.toggle-wrapper{
+/* 🌫 BLUR BUTTON */
+.blur-wrapper{
     display:flex;
     flex-direction:column;
     align-items:center;
+    gap:4px;
 }
 
-.toggle{
+.blur-btn{
     width:26px;
     height:26px;
     border-radius:50%;
     border:2px solid black;
-    cursor:pointer;
+    background:white;
     display:flex;
     justify-content:center;
     align-items:center;
-    background:white;
+    cursor:pointer;
+    font-weight:bold;
 }
 
+/* A flouté */
 .blur-letter{
     filter: blur(2px);
 }
 
+/* label */
 .label{
     font-size:10px;
 }
@@ -118,7 +126,7 @@ input:focus{
 
 <body>
 
-<!-- COLORS -->
+<!-- 🎨 COLORS -->
 <div class="top">
 
     <div class="color" style="background:white" onclick="changeColor('white')"></div>
@@ -128,9 +136,9 @@ input:focus{
     <div class="color" style="background:#0057ff" onclick="changeColor('#0057ff')"></div>
     <div class="color black" onclick="changeColor('black')"></div>
 
-    <!-- BLUR -->
-    <div class="toggle-wrapper">
-        <div class="toggle" onclick="toggleBlur()">
+    <!-- 🌫 BLUR -->
+    <div class="blur-wrapper">
+        <div class="blur-btn" onclick="toggleBlur()">
             <span class="blur-letter">A</span>
         </div>
         <div class="label">blur</div>
@@ -138,40 +146,50 @@ input:focus{
 
 </div>
 
-<!-- TEXT -->
+<!-- 🧠 TEXT -->
 <div class="center">
     <div class="square">
-        <div class="preview" id="text">
+        <div id="text">
             you seem pretty sad for a girl so in love
         </div>
     </div>
 </div>
 
-<!-- INPUT -->
+<!-- ✏️ INPUT -->
 <div class="input-box">
-<input id="input" value="you seem pretty sad for a girl so in love" oninput="updateText()">
+<input id="input"
+value="you seem pretty sad for a girl so in love"
+oninput="updateText()">
 </div>
 
 <script>
 
-let blur = true;
+let blurOn = false;
 
+/* texte */
 function updateText(){
     let v = document.getElementById("input").value;
     document.getElementById("text").innerText = v.toLowerCase();
 }
 
+/* couleur */
 function changeColor(c){
     document.body.style.background = c;
 }
 
+/* blur toggle */
 function toggleBlur(){
-    blur = !blur;
-    document.getElementById("text").style.filter = blur ? "blur(1px)" : "blur(0px)";
+    blurOn = !blurOn;
+
+    const text = document.getElementById("text");
+
+    if(blurOn){
+        text.style.filter = "blur(1.2px)";
+    } else {
+        text.style.filter = "blur(0px)";
+    }
 }
 
-// init
-document.getElementById("text").style.filter = "blur(1px)";
 </script>
 
 </body>
