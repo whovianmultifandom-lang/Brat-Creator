@@ -21,19 +21,6 @@ body {
     color: black;
 }
 
-/* 💀 HEADER */
-.name {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    background: black;
-    color: #b9ff00;
-    padding: 10px 16px;
-    border-radius: 20px;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
 /* 🎨 COLORS */
 .top {
     position: absolute;
@@ -62,21 +49,20 @@ body {
 .preview {
     font-size: 85px;
     text-align: left;
-    line-height: 0.9;
-    max-width: 750px;
+    line-height: 1.05;
 
-    /* 💥 GLITCH FEEL */
-    animation: glitch 2.5s infinite alternate;
+    /* ↔️ ESPACEMENT HORIZONTAL */
+    letter-spacing: 2px;
+
+    /* 🌫 FLU */
+    filter: blur(1.2px);
+    transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-/* glitch animation */
-@keyframes glitch {
-    0%   { transform: translate(0px,0px); }
-    20%  { transform: translate(1px,-1px); }
-    40%  { transform: translate(-1px,1px); }
-    60%  { transform: translate(1px,1px); }
-    80%  { transform: translate(-1px,-1px); }
-    100% { transform: translate(0px,0px); }
+/* ✨ hover plus clean (optionnel point 4 amélioré) */
+.preview:hover {
+    filter: blur(0px);
+    transform: scale(1.01);
 }
 
 /* ✏️ INPUT */
@@ -97,13 +83,12 @@ input {
     outline: none;
 }
 
-/* focus BRAT */
 input:focus {
     background: black;
     color: #b9ff00;
 }
 
-/* petit effet brut sur fond */
+/* texture légère */
 body::before {
     content: "";
     position: absolute;
@@ -123,9 +108,6 @@ body::before {
 </head>
 
 <body>
-
-<!-- 💀 BRAND -->
-<div class="name">Howard Stirling ☰</div>
 
 <!-- 🎨 COLORS -->
 <div class="top">
@@ -157,6 +139,7 @@ oninput="updateText()">
 
 function updateText(){
     let value = document.getElementById("input").value;
+
     document.getElementById("text").innerHTML =
     value.toLowerCase().replaceAll(" ","<br>");
 }
