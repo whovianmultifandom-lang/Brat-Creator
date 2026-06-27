@@ -56,7 +56,7 @@ body{
     align-items:center;
 }
 
-/* TEXT DISPLAY */
+/* TEXT */
 #text{
     font-size:40px;
     letter-spacing:2px;
@@ -65,7 +65,6 @@ body{
     flex-wrap:wrap;
     gap:6px;
     align-content:center;
-    justify-content:center;
 }
 
 /* BLOCK MODE */
@@ -104,15 +103,25 @@ textarea:focus{
     color:#b9ff00;
 }
 
+/* PICKERS */
+.pickers{
+    position:absolute;
+    top:20px;
+    right:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    font-size:12px;
+}
+
 /* CONTROLS */
 .controls{
     position:absolute;
     right:20px;
-    top:20px;
+    top:120px;
     display:flex;
     flex-direction:column;
     gap:8px;
-    font-size:12px;
 }
 
 button{
@@ -122,35 +131,51 @@ button{
     cursor:pointer;
 }
 
-button:active{
-    transform:scale(0.95);
+/* BLUR */
+.blur-btn{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:2px solid black;
+    background:white;
+    cursor:pointer;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- TOP COLORS -->
+<!-- QUICK COLORS -->
 <div class="top">
     <div class="color" style="background:white" onclick="changeColor('white')"></div>
     <div class="color" style="background:#ffb6d9" onclick="changeColor('#ffb6d9')"></div>
     <div class="color" style="background:#ffe600" onclick="changeColor('#ffe600')"></div>
     <div class="color" style="background:#00c853" onclick="changeColor('#00c853')"></div>
     <div class="color black" onclick="changeColor('black')"></div>
+
+    <div class="blur-btn" onclick="toggleBlur()">A</div>
+</div>
+
+<!-- PICKERS -->
+<div class="pickers">
+    <div>
+        text<br>
+        <input type="color" oninput="setTextColor(this.value)">
+    </div>
+
+    <div>
+        background<br>
+        <input type="color" oninput="setBgColor(this.value)">
+    </div>
 </div>
 
 <!-- CONTROLS -->
 <div class="controls">
-
-    <button onclick="toggleUpper()">MAJUSCULE</button>
-
+    <button onclick="toggleUpper()">MAJ / MIN</button>
     <button onclick="setAlign('left')">GAUCHE</button>
     <button onclick="setAlign('center')">CENTRE</button>
     <button onclick="setAlign('right')">DROITE</button>
-
     <button onclick="toggleBlocks()">BLOCS</button>
-
 </div>
 
 <!-- TEXT -->
@@ -167,28 +192,28 @@ button:active{
 
 <script>
 
+let blurOn = false;
 let isUpper = false;
 let align = "center";
 let blockMode = false;
 
+/* UPDATE */
 function updateText(){
     render();
 }
 
-/* RENDER SYSTEM */
+/* RENDER */
 function render(){
 
     let v = document.getElementById("input").value;
 
-    if(isUpper){
-        v = v.toUpperCase();
-    }else{
-        v = v.toLowerCase();
-    }
+    v = isUpper ? v.toUpperCase() : v.toLowerCase();
 
     const container = document.getElementById("text");
 
     container.innerHTML = "";
+
+    container.style.filter = blurOn ? "blur(1.2px)" : "none";
 
     container.style.justifyContent =
         align === "left" ? "flex-start" :
@@ -200,14 +225,14 @@ function render(){
         let words = v.split(/\s+/);
 
         words.forEach(w => {
-            if(w.trim() === "") return;
+
+            if(!w.trim()) return;
 
             let div = document.createElement("div");
             div.className = "block";
             div.innerText = w;
 
-            // tailles variées
-            let size = Math.random() * 20 + 25;
+            let size = Math.random() * 25 + 25;
             div.style.minWidth = size + "px";
             div.style.minHeight = size + "px";
 
@@ -215,39 +240,56 @@ function render(){
         });
 
     } else {
-
         container.style.display = "block";
         container.innerText = v;
-
     }
 }
 
-/* MAJUSCULE */
+/* BLUR */
+function toggleBlur(){
+    blurOn = !blurOn;
+    render();
+}
+
+/* CASE */
 function toggleUpper(){
     isUpper = !isUpper;
     render();
 }
 
-/* ALIGNEMENT */
+/* ALIGN */
 function setAlign(a){
     align = a;
     render();
 }
 
-/* BLOCS */
+/* BLOCKS */
 function toggleBlocks(){
     blockMode = !blockMode;
-
-    document.getElementById("text").style.display =
-        blockMode ? "flex" : "block";
-
+    containerDisplayFix();
     render();
 }
 
-/* BACKGROUND */
+/* COLORS */
 function changeColor(c){
     document.body.style.background = c;
 }
+
+function setTextColor(c){
+    document.getElementById("text").style.color = c;
+}
+
+function setBgColor(c){
+    document.body.style.background = c;
+}
+
+/* FIX DISPLAY */
+function containerDisplayFix(){
+    document.getElementById("text").style.display =
+        blockMode ? "flex" : "block";
+}
+
+containerDisplayFix();
 
 </script>
 
