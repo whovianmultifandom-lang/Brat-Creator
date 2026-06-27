@@ -20,7 +20,7 @@ body{
     background:#b9ff00;
 }
 
-/* TOP */
+/* TOP COLORS */
 .top{
     position:absolute;
     top:20px;
@@ -40,6 +40,34 @@ body{
 
 .black{ background:black; }
 
+/* PICKERS */
+.pickers{
+    position:absolute;
+    top:20px;
+    right:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    font-size:12px;
+}
+
+/* CONTROLS */
+.controls{
+    position:absolute;
+    right:20px;
+    top:140px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+button{
+    padding:6px;
+    border:2px solid black;
+    background:white;
+    cursor:pointer;
+}
+
 /* CENTER */
 .center{
     height:100vh;
@@ -56,27 +84,28 @@ body{
     align-items:center;
 }
 
-/* TEXT */
+/* TEXT AREA */
 #text{
     font-size:40px;
     letter-spacing:2px;
     white-space:pre-wrap;
     display:flex;
     flex-wrap:wrap;
-    gap:6px;
+    gap:8px;
     align-content:center;
+    justify-content:center;
+    text-align:center;
 }
 
-/* BLOCK MODE */
+/* BLOCK MODE (SANS CADRES LOURDS) */
 .block{
     display:flex;
     justify-content:center;
     align-items:center;
-    border:2px solid black;
-    padding:6px;
-    min-width:30px;
-    min-height:30px;
+    padding:6px 10px;
     font-size:18px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.15);
 }
 
 /* INPUT */
@@ -103,35 +132,7 @@ textarea:focus{
     color:#b9ff00;
 }
 
-/* PICKERS */
-.pickers{
-    position:absolute;
-    top:20px;
-    right:20px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    font-size:12px;
-}
-
-/* CONTROLS */
-.controls{
-    position:absolute;
-    right:20px;
-    top:120px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-button{
-    padding:6px;
-    border:2px solid black;
-    background:white;
-    cursor:pointer;
-}
-
-/* BLUR */
+/* BLUR BUTTON */
 .blur-btn{
     width:26px;
     height:26px;
@@ -140,12 +141,13 @@ button{
     background:white;
     cursor:pointer;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- QUICK COLORS -->
+<!-- COLORS -->
 <div class="top">
     <div class="color" style="background:white" onclick="changeColor('white')"></div>
     <div class="color" style="background:#ffb6d9" onclick="changeColor('#ffb6d9')"></div>
@@ -202,7 +204,7 @@ function updateText(){
     render();
 }
 
-/* RENDER */
+/* RENDER SYSTEM */
 function render(){
 
     let v = document.getElementById("input").value;
@@ -213,14 +215,21 @@ function render(){
 
     container.innerHTML = "";
 
+    /* BLUR */
     container.style.filter = blurOn ? "blur(1.2px)" : "none";
 
+    /* ALIGN */
     container.style.justifyContent =
         align === "left" ? "flex-start" :
         align === "right" ? "flex-end" :
         "center";
 
+    container.style.textAlign = align;
+
+    /* MODE BLOCS */
     if(blockMode){
+
+        container.style.display = "flex";
 
         let words = v.split(/\s+/);
 
@@ -232,14 +241,11 @@ function render(){
             div.className = "block";
             div.innerText = w;
 
-            let size = Math.random() * 25 + 25;
-            div.style.minWidth = size + "px";
-            div.style.minHeight = size + "px";
-
             container.appendChild(div);
         });
 
     } else {
+
         container.style.display = "block";
         container.innerText = v;
     }
@@ -251,7 +257,7 @@ function toggleBlur(){
     render();
 }
 
-/* CASE */
+/* MAJ / MIN */
 function toggleUpper(){
     isUpper = !isUpper;
     render();
@@ -263,10 +269,9 @@ function setAlign(a){
     render();
 }
 
-/* BLOCKS */
+/* BLOCS */
 function toggleBlocks(){
     blockMode = !blockMode;
-    containerDisplayFix();
     render();
 }
 
@@ -282,14 +287,6 @@ function setTextColor(c){
 function setBgColor(c){
     document.body.style.background = c;
 }
-
-/* FIX DISPLAY */
-function containerDisplayFix(){
-    document.getElementById("text").style.display =
-        blockMode ? "flex" : "block";
-}
-
-containerDisplayFix();
 
 </script>
 
