@@ -11,16 +11,16 @@
     padding:0;
     box-sizing:border-box;
     font-family: Arial, Helvetica, sans-serif;
-    text-transform: lowercase;
 }
 
+/* BODY */
 body{
     height:100vh;
     overflow:hidden;
     background:#b9ff00;
 }
 
-/* 🎨 TOP */
+/* TOP */
 .top{
     position:absolute;
     top:20px;
@@ -30,7 +30,6 @@ body{
     align-items:center;
 }
 
-/* couleurs rapides */
 .color{
     width:26px;
     height:26px;
@@ -39,11 +38,9 @@ body{
     cursor:pointer;
 }
 
-.black{
-    background:black;
-}
+.black{ background:black; }
 
-/* 🧠 CENTRE */
+/* CENTER */
 .center{
     height:100vh;
     display:flex;
@@ -52,37 +49,52 @@ body{
 }
 
 .square{
-    width:450px;
-    height:450px;
+    width:500px;
+    height:500px;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-/* TEXTE */
+/* TEXT DISPLAY */
 #text{
-    font-size:45px;
+    font-size:40px;
     letter-spacing:2px;
     white-space:pre-wrap;
-    word-spacing:10px;
-    text-align:center;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-content:center;
+    justify-content:center;
 }
 
-/* ✏️ INPUT */
+/* BLOCK MODE */
+.block{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:2px solid black;
+    padding:6px;
+    min-width:30px;
+    min-height:30px;
+    font-size:18px;
+}
+
+/* INPUT */
 .input-box{
     position:absolute;
-    bottom:60px;
+    bottom:40px;
     left:50%;
     transform:translateX(-50%);
 }
 
 textarea{
     width:600px;
-    height:100px;
+    height:90px;
     padding:16px;
     border-radius:30px;
     border:2px solid black;
-    font-size:18px;
+    font-size:16px;
     text-align:center;
     resize:none;
 }
@@ -92,187 +104,152 @@ textarea:focus{
     color:#b9ff00;
 }
 
-/* 🌫 BLUR */
-.blur-wrapper{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:4px;
-}
-
-.blur-btn{
-    width:26px;
-    height:26px;
-    border-radius:50%;
-    border:2px solid black;
-    background:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-}
-
-.blur-letter{
-    filter:blur(2px);
-}
-
-.label{
-    font-size:10px;
-}
-
-/* 🎛 COLOR PICKERS */
-.pickers{
+/* CONTROLS */
+.controls{
     position:absolute;
-    top:20px;
     right:20px;
+    top:20px;
     display:flex;
     flex-direction:column;
     gap:8px;
-    align-items:flex-end;
+    font-size:12px;
 }
 
-.pickers label{
-    font-size:10px;
+button{
+    padding:6px;
+    border:2px solid black;
+    background:white;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(0.95);
 }
 
 </style>
-
 </head>
 
 <body>
 
-
-<!-- 🎨 COLORS QUICK -->
+<!-- TOP COLORS -->
 <div class="top">
-
     <div class="color" style="background:white" onclick="changeColor('white')"></div>
-
     <div class="color" style="background:#ffb6d9" onclick="changeColor('#ffb6d9')"></div>
-
     <div class="color" style="background:#ffe600" onclick="changeColor('#ffe600')"></div>
-
     <div class="color" style="background:#00c853" onclick="changeColor('#00c853')"></div>
-
-    <div class="color" style="background:#0057ff" onclick="changeColor('#0057ff')"></div>
-
     <div class="color black" onclick="changeColor('black')"></div>
+</div>
 
+<!-- CONTROLS -->
+<div class="controls">
 
-    <!-- 🌫 BLUR -->
-    <div class="blur-wrapper">
+    <button onclick="toggleUpper()">MAJUSCULE</button>
 
-        <div class="blur-btn" onclick="toggleBlur()">
-            <span class="blur-letter">A</span>
-        </div>
+    <button onclick="setAlign('left')">GAUCHE</button>
+    <button onclick="setAlign('center')">CENTRE</button>
+    <button onclick="setAlign('right')">DROITE</button>
 
-        <div class="label">blur</div>
-
-    </div>
+    <button onclick="toggleBlocks()">BLOCS</button>
 
 </div>
 
-
-
-<!-- 🎛 COLOR PICKERS -->
-<div class="pickers">
-
-    <div>
-        <label>text</label><br>
-        <input type="color" oninput="setTextColor(this.value)">
-    </div>
-
-
-    <div>
-        <label>background</label><br>
-        <input type="color" oninput="setBgColor(this.value)">
-    </div>
-
-</div>
-
-
-
-
-<!-- 🧠 TEXT -->
+<!-- TEXT -->
 <div class="center">
-
     <div class="square">
-
-        <div id="text">
-you seem pretty sad for a girl so in love
-        </div>
-
+        <div id="text"></div>
     </div>
-
 </div>
 
-
-
-<!-- ✏️ INPUT -->
+<!-- INPUT -->
 <div class="input-box">
-
-<textarea id="input" oninput="updateText()">you seem pretty sad for a girl so in love</textarea>
-
+    <textarea id="input" oninput="updateText()">you seem pretty sad for a girl so in love</textarea>
 </div>
-
-
-
 
 <script>
 
-let blurOn = false;
+let isUpper = false;
+let align = "center";
+let blockMode = false;
 
-
-/* texte */
 function updateText(){
+    render();
+}
+
+/* RENDER SYSTEM */
+function render(){
 
     let v = document.getElementById("input").value;
 
-    document.getElementById("text").textContent = v.toLowerCase();
+    if(isUpper){
+        v = v.toUpperCase();
+    }else{
+        v = v.toLowerCase();
+    }
 
+    const container = document.getElementById("text");
+
+    container.innerHTML = "";
+
+    container.style.justifyContent =
+        align === "left" ? "flex-start" :
+        align === "right" ? "flex-end" :
+        "center";
+
+    if(blockMode){
+
+        let words = v.split(/\s+/);
+
+        words.forEach(w => {
+            if(w.trim() === "") return;
+
+            let div = document.createElement("div");
+            div.className = "block";
+            div.innerText = w;
+
+            // tailles variées
+            let size = Math.random() * 20 + 25;
+            div.style.minWidth = size + "px";
+            div.style.minHeight = size + "px";
+
+            container.appendChild(div);
+        });
+
+    } else {
+
+        container.style.display = "block";
+        container.innerText = v;
+
+    }
 }
 
+/* MAJUSCULE */
+function toggleUpper(){
+    isUpper = !isUpper;
+    render();
+}
 
+/* ALIGNEMENT */
+function setAlign(a){
+    align = a;
+    render();
+}
 
-/* couleurs rapides */
+/* BLOCS */
+function toggleBlocks(){
+    blockMode = !blockMode;
+
+    document.getElementById("text").style.display =
+        blockMode ? "flex" : "block";
+
+    render();
+}
+
+/* BACKGROUND */
 function changeColor(c){
-
     document.body.style.background = c;
-
 }
-
-
-
-/* blur */
-function toggleBlur(){
-
-    blurOn = !blurOn;
-
-    document.getElementById("text").style.filter =
-    blurOn ? "blur(1.2px)" : "blur(0px)";
-
-}
-
-
-
-/* couleur texte */
-function setTextColor(c){
-
-    document.getElementById("text").style.color = c;
-
-}
-
-
-
-/* couleur fond */
-function setBgColor(c){
-
-    document.body.style.background = c;
-
-}
-
 
 </script>
-
 
 </body>
 </html>
